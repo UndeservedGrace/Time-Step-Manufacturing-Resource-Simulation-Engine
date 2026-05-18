@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPSC3200", "CPSC3200\CPSC3200.csproj", "{9D5ACCA0-6244-4464-9A85-6C4664714023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_CPSC3200", "Test_CPSC3200\Test_CPSC3200.csproj", "{B8DAE6A2-254F-4D48-AA65-017F2000D645}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D5ACCA0-6244-4464-9A85-6C4664714023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D5ACCA0-6244-4464-9A85-6C4664714023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D5ACCA0-6244-4464-9A85-6C4664714023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D5ACCA0-6244-4464-9A85-6C4664714023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DAE6A2-254F-4D48-AA65-017F2000D645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DAE6A2-254F-4D48-AA65-017F2000D645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DAE6A2-254F-4D48-AA65-017F2000D645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DAE6A2-254F-4D48-AA65-017F2000D645}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
