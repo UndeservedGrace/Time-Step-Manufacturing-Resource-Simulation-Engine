@@ -1,0 +1,77 @@
+{
+  "PowerGrid": 0,
+  "Containers": [
+    {
+      "magic": {
+        "Name": "magic",
+        "Quantity": 40
+      },
+      "radioisotopes": {
+        "Name": "radioisotopes",
+        "Quantity": 50
+      }
+    },
+    {
+      "Jamal": {
+        "Name": "Jamal",
+        "Quantity": 20
+      },
+      "Tim": {
+        "Name": "Tim",
+        "Quantity": 20
+      }
+    }
+  ],
+  "Crafters": [
+    {
+      "SourceIndex": 1,
+      "DestinationIndex": 1,
+      "Recipes": [
+        {
+          "Inputs": [
+            {
+              "Name": "Jamal",
+              "Quantity": 1
+            },
+            {
+              "Name": "Tim",
+              "Quantity": 1
+            }
+          ],
+          "Outputs": [
+            {
+              "Name": "Abomination",
+              "Quantity": 1
+            }
+          ],
+          "CraftTime": 2
+        },
+        {
+          "Inputs": [
+            {
+              "Name": "Abomination",
+              "Quantity": 1
+            }
+          ],
+          "Outputs": [
+            {
+              "Name": "Horror",
+              "Quantity": 2
+            }
+          ],
+          "CraftTime": 2
+        }
+      ],
+      "StrategyType": "Priority",
+      "StrategyIndex": 0,
+      "PowerType": "Fuel",
+      "BatteryCharges": 0,
+      "PowerConsumption": 0,
+      "FuelContainerIndex": 0,
+      "ValidFuels": [
+        "magic",
+        "radioisotopes"
+      ]
+    }
+  ]
+}

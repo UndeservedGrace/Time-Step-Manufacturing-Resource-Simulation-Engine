@@ -272,3 +272,4 @@ C:\Users\Jamal\RiderProjects\CPSC3200\Test_CPSC3200\obj\Debug\net10.0\refint\Tes
 C:\Users\Jamal\RiderProjects\CPSC3200\Test_CPSC3200\obj\Debug\net10.0\Test_CPSC3200.pdb
 C:\Users\Jamal\RiderProjects\CPSC3200\Test_CPSC3200\obj\Debug\net10.0\Test_CPSC3200.genruntimeconfig.cache
 C:\Users\Jamal\RiderProjects\CPSC3200\Test_CPSC3200\obj\Debug\net10.0\ref\Test_CPSC3200.dll
+C:\Users\Jamal\RiderProjects\CPSC3200\Test_CPSC3200\obj\Debug\net10.0\Test_CPSC3200.sourcelink.json

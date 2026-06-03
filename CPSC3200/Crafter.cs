@@ -1,4 +1,5 @@
 ﻿namespace CPSC3200;
+using System.Text;
 
 public class Crafter
 {
@@ -6,6 +7,7 @@ public class Crafter
     private Container? _source;
     private Container? _destination;
     private IRecipeStrategy _strategy;
+    private IPowerSource _powerSource;
     private Recipe? _currentRecipe;
     private int _progress = 0;
     public Recipe? CurrentRecipe => _currentRecipe;
@@ -15,14 +17,16 @@ public class Crafter
     // -----------------------------
     public Crafter(
         List<Recipe> recipes,
-        Container? source,
-        Container? destination,
-        IRecipeStrategy strategy)
+        Container source,
+        Container destination,
+        IRecipeStrategy strategy,
+        IPowerSource powerSource)
     {
         _recipes = recipes;
         _source = source;
         _destination = destination;
         _strategy = strategy;
+        _powerSource = powerSource;
     }
     
     // Initialize the object 
@@ -30,12 +34,14 @@ public class Crafter
         List<Recipe> recipes,
         Container source,
         Container destination,
-        IRecipeStrategy strategy)
+        IRecipeStrategy strategy,
+        IPowerSource powerSource)
     {
         _recipes = recipes;
         _source = source;
         _destination = destination;
         _strategy = strategy;
+        _powerSource = powerSource;
     }
     
     // -----------------------------
@@ -47,6 +53,12 @@ public class Crafter
         return _destination;
     }
 
+    // Get current power source
+    public IPowerSource GetPowerSource()
+    {
+        return _powerSource;
+    }
+    
     // Get Current Recipe
     public Recipe? GetCurrentRecipe()
     {
@@ -72,42 +84,67 @@ public class Crafter
     }
 
     // Clone crafter
-    public Crafter Clone(IReadOnlyDictionary<Container, Container> containerMap)
+    public Crafter Clone(
+        IReadOnlyDictionary<Container, Container> containerMap)
     {
-        List<Recipe> newRecipes = new List<Recipe>();
+        List<Recipe> recipes = new();
+
         foreach (Recipe recipe in _recipes)
         {
-            newRecipes.Add(recipe.Clone());
+            recipes.Add(recipe.Clone());
         }
-        
-        return new Crafter(newRecipes,containerMap[_source], containerMap[_destination], _strategy.Clone());
+
+        return new Crafter(
+            recipes,
+            containerMap[_source],
+            containerMap[_destination],
+            _strategy.Clone(),
+            _powerSource.Clone(containerMap)
+        );
     }
     
    
     // -----------------------------
     // Updating Crafter
     // -----------------------------
-    public void Advance()
+    public void Advance(Simulation simulation)
     {
-        // Not currently crafting
+        // Not Currently Crafting
         if (_currentRecipe == null)
         {
-            Recipe? selected = _strategy.SelectRecipe(_recipes, _source);
+            if (!_powerSource.CanPower(simulation))
+            {
+                return;
+            }
 
-            if (selected == null) { return;}
+            Recipe? selected =
+                _strategy.SelectRecipe(
+                    _recipes,
+                    _source);
 
-            if (!ConsumeInputs(selected)) { return; }
+            if (selected == null)
+            {
+                return;
+            }
+
+            if (!ConsumeInputs(selected))
+            {
+                return;
+            }
+
+            _powerSource.ConsumePower(simulation);
+
             _currentRecipe = selected;
             _progress = 0;
         }
-
         _progress++;
-
         if (_progress >= _currentRecipe.CraftTime)
         {
             foreach (Item output in _currentRecipe.Outputs)
             {
-                _destination.AddItem(output.Name, output.Quantity);
+                _destination.AddItem(
+                    output.Name,
+                    output.Quantity);
             }
 
             _currentRecipe = null;
@@ -139,59 +176,49 @@ public class Crafter
     // Other
     // -----------------------------
     
-    // Prints a summary of crafter
-    public void Print()
+    // Gets a summary of crafter
+    public string GetSummary()
     {
-        int i = 0;
+        StringBuilder sb = new();
 
-        foreach (Recipe recipe in _recipes)
+        for (int i = 0; i < _recipes.Count; i++)
         {
-            Console.WriteLine("-----------------------------");
+            Recipe recipe = _recipes[i];
 
-            if (recipe == _currentRecipe)
-            {
-                Console.WriteLine($"     *** Current Recipe *** ({i})");
-            }
-            else
-            {
-                Console.WriteLine($"     Recipe {i}");
-            }
+            sb.AppendLine($"Recipe #{i}");
 
-            // Print inputs
-            Console.WriteLine("\n     Recipe Requires:");
+            sb.AppendLine("Inputs:");
 
             foreach (Item input in recipe.Inputs)
             {
-                Console.WriteLine(
-                    $"     Name: {input.Name}, Quantity: {input.Quantity}");
+                sb.AppendLine(
+                    $"{input.Name} x{input.Quantity}");
             }
 
-            // Print outputs
-            Console.WriteLine("\n     Recipe Outputs:");
+            sb.AppendLine("Outputs:");
 
             foreach (Item output in recipe.Outputs)
             {
-                Console.WriteLine(
-                    $"     Name: {output.Name}, Quantity: {output.Quantity}");
+                sb.AppendLine(
+                    $"{output.Name} x{output.Quantity}");
             }
-
-            Console.WriteLine("-----------------------------");
-
-            i++;
+            sb.AppendLine();
         }
 
-        // If the crafter IS NOT currently crafting
+        sb.AppendLine(_powerSource.GetStatus());
+
         if (_currentRecipe == null)
         {
-            Console.WriteLine("\nCrafter is idle.");
+            sb.AppendLine("Idle");
         }
-        // If the crafter IS currently crafting 
         else
         {
-            Console.WriteLine($"\nCrafting in progress: ({_progress}/{_currentRecipe.CraftTime})");
+            sb.AppendLine(
+                $"Crafting ({_progress}/{_currentRecipe.CraftTime})");
         }
-    }
 
+        return sb.ToString();
+    }
 }
 
 

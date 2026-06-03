@@ -1,4 +1,5 @@
 ﻿namespace CPSC3200;
+using System.Text;
 
 public class Container
 {
@@ -108,20 +109,25 @@ public class Container
         return new Container(GetItems());
     }
 
-    // Prints contents
-    public void Print()
+    // Returns summary of contents
+    public string GetSummary()
     {
-        Console.WriteLine("Container Contents:");
+        StringBuilder sb = new();
+
+        sb.AppendLine("Container Contents:");
 
         if (_items.Count == 0)
         {
-            Console.WriteLine("(empty)");
-            return;
+            sb.AppendLine("(empty)");
+            return sb.ToString();
         }
 
-        foreach (var pair in _items)
+        foreach (var item in _items.Values)
         {
-            Console.WriteLine($"Item: {pair.Value.Name}, " + $"Quantity: {pair.Value.Quantity}");
+            sb.AppendLine(
+                $"Item: {item.Name}, Quantity: {item.Quantity}");
         }
+
+        return sb.ToString();
     }
 }
