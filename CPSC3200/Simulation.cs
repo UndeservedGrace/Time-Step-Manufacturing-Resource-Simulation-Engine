@@ -179,7 +179,7 @@ public class Simulation
             _crafters.Add(newCrafter);
         }
     }
-    public void Save(string filename)
+    public void Save (string filename)
 {
     SimulationSaveData data = new SimulationSaveData();
     data.PowerGrid = PowerGrid;
